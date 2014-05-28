@@ -1,0 +1,14 @@
+http://localhost:8083/pentaho/plugin/pentaho-cdf-dd/api/syncronizer/saveDashboard
+
+获取生成页面内容
+http://localhost:8083/pentaho/plugin/pentaho-cdf-dd/api/renderer/getContent?solution=home&path=admin&file=demo1.wcdf
+获取整个生成页面
+http://localhost:8083/pentaho/plugin/pentaho-cdf-dd/api/renderer/render?solution=home&path=admin&file=demo1.wcdf&root=localhost:8083
+获取组件定义
+http://localhost:8083/pentaho/plugin/pentaho-cdf-dd/api/renderer/getComponentDefinitions
+http://localhost:8083/pentaho/plugin/pentaho-cdf-dd/api/plugins/get
+CDE版本查询
+获取版本号
+http://localhost:8083/pentaho/plugin/pentaho-cdf-dd/api/version/get
+获取CDE编辑页面
+http://localhost:8083/pentaho/plugin/pentaho-cdf-dd/api/renderer/edit?solution=home&path=admin&file=demo1.wcdf&debug=true

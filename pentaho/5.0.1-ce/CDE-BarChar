@@ -1,0 +1,28 @@
+cccBarChart属性说明
+------------------------------------------------------------------------------
+属性名            取值类型            作用                中文                 备注
+Listeners          数组               侦听变量变化        侦听                 
+Parameters         数组               接收外部参数        参数                  
+Datasource         引用               设置数据源名        数据源               
+HtmlObject         引用               显示的容器          Html的Div ID          
+clickable          boolean            是否可以单击击      可单击               设置为true时可以定义响应事件
+clickAction        function           单击响应            单击处理函数         
+legend             boolean            是否显示说明        说明
+seriesInRows       boolean            把行作为series
+timeSeries         boolean            以时间作为series
+timeSeriesFormat   string             时间格式
+valuesMask         string             柱上加文字
+
+常用设置
+------------------------------------------------------------------------------
+一、旋转x轴描述
+    应用场景：当柱形之间距离较近而描述文字较多时描述会显示不全
+    方法：设置Extension points 增加两个参数xAxisLabel_textAngle和xAxisLabel_textAlign值分别为-0.5和'right'
+    注：这两个值可以根据需要调整xAxisLabel_textAngle控制旋转角度，xAxisLabel_textAlign控制对齐方式
+二、设置柱形颜色渐变
+    方法：设置Extension points 增加一个参数bar_fillStyle值设置为'linear-gradient(to top,red, green, blue)'
+    第一个参数指定渐变方向，第二到第四指定渐变的颜色个数
+
+更多设置参考:
+http://www.webdetails.pt/ctools/charts/jsdoc/
+http://www.webdetails.pt/ctools.html

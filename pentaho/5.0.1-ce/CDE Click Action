@@ -1,0 +1,45 @@
+目标：点击饼形图的一部分 触发另一个饼形图或柱形图重画
+设置：增加 simple 参数
+设置饼形图 clickable=true  
+定义clickAction:function(){
+   var category=this.scene.atoms.category; //获取类别
+   var series= this.scene.atoms.series; //获取系
+   var value=this.scene.atoms.value;//获取值
+   Dashboards.fireChange(parameterName,category.toString())
+
+}
+或者定义 clickAction:function(se){
+        var category=se.atoms.category;
+	var series=se.atoms.series
+	var value=se.atoms.value
+	Dashboards.fireChange(parameterName,category.toString())
+}
+设置Dashboards.globalContext为false
+在CDE布局面板添加资源文件JavaScript 在资源文件中添加
+Dashboards.globalContext=false;
+
+注：将Dashboards.globalContext设置成true时所有定义的参数将保存在 Dashboards.globalContext中通过eval(parameterName)来获取其值，用eval( parameterName + " = " + JSON.stringify(parameterValue) )来设置其值
+将 Dashboards.globalContext设置成false所有定义的参数将保存在 Dashboards.parameters 中通过Dashboards.parameters[parameterName]来获取其值，用Dashboards.parameters[parameterName]=parameterValue来设置其值
+
+将CCCPieChar设置成环形
+设置 Extension points:[["slice_innerRadiusEx","50"]]
+设置Components SQL参数
+增加 Dashboard SimpleParameter 
+将 Dashboard SimpleParameter 映射成 Component 内部参数
+设置Component 的 Parameters:[["innerParameter","SimpleParameter"]]
+innerParameter:Component 内部参数
+SimpleParameter:Dashboard SimpleParameter
+将Component 内部参数 传给其DataSource
+设置其DataSource的Parameters:[["innerParameter","","String",""]]
+
+将BarChar设置成横向
+设置 orientation:Horizontal
+
+CDE页面中文乱码问题
+中文乱码问题主要是找到乱码的地方在哪里一般情况下都是有编码不一致导致的通过查看源码得知在CDE pt.webdetails.cdf.dd.DashboardDesignerContentGenerator类的createContent方法中将从CDE生成的HTML内容传递到了Pentaho中（通过Response传过去的）
+然后Pentaho直接返回Response CDE中的编码设置为utf-8，Pentaho中的编码设置也是utf-8如果直接将数据写入是不会乱码的但是CDE用的是 org.apache.commons.io.IOUtils.write(String str,OutputStream st)方法将CDE生成的内容写到Respose输出流的但是在这里没有指明编码格式IOUtils.write默认用JVM 中的file.encoding
+由于我的系统是zh_CN的默认编码为GBK所以JVM 参数file.encoding的值也为GBK和CDE的utf-8，Pentaho 的utf-8不一致导致乱码
+解决办法一：修改源码使用指定编码格式的IOUtils.write（String str,OutputStream st,String encoding）具体为将IOUtils.write(result, getResponse().getOutputStream());换成IOUtils.write(result, getResponse().getOutputStream(),getResponse().getCharacterEncoding());
+解决办法二：修改JVM file.encoding 参数值 在Tomcat的catalina.bat(linux 为catalina.sh)的JAVA_OPTS中加入-Dfile.encoding 具体为 set JAVA_OPTS=%JAVA_OPTS% -Dfile.encoding=UTF-8
+
+pentaho CDE 调用流程Pentaho 通过org.pentaho.platform.web.http.api.resources.RepositoryResource类和对应的参数首先加载对应的Plugin再通过Plugin pt.webdetails.cdf.dd.DashboardDesignerContentGenerator 生成HTML内容 最后将HTML内容写入到Response的OutputStream 由Pentaho传到前台

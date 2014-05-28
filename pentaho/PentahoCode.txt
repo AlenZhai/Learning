@@ -1,0 +1,2 @@
+4.8之前的源码：svn://source.pentaho.org/svnroot
+5.0之后的源码：https://github.com/pentaho/pentaho-platform.git

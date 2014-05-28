@@ -1,0 +1,9 @@
+ 在用Ant部署时，出现：“警告： 编码 GBK 的不可映射字符”，网上找了一下，主要是编码兼容性的问题，需要个javac指定编码，于是在build.xml中加入以下说明即可：
+
+<target name="compile" depends="prepare" description="编绎">
+   <javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="on" deprecation="on" optimize="off" includes="**">
+    <!--给编译器指定编码，防止出现："警告： 编码 GBK 的不可映射字符"-->
+   <compilerarg line="-encoding UTF-8 "/>   
+    <classpath refid="build.classpath" />
+   </javac>
+</target>

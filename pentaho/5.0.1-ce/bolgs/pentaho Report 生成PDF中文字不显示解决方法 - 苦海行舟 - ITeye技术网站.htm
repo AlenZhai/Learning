@@ -1,0 +1,454 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>pentaho Report 生成PDF中文字不显示解决方法 - 苦海行舟 - ITeye技术网站</title>
+    <meta name="description" content="  最近在用Pentaho Report 5.0.1 设计器制作报表时发现报表生成PDF时中文字体不显示 现在来和大家分享一下解决方法第一步 将报表中的中文字全部设置成 宋体 第二步 将报表设计器中 file-&gt;configuration 打开 Report配置窗口选择 output-pagebale-pdf 将其下encoding 设置成utf-8  &nbsp;  &nbsp;ok 完成  ">
+    <meta name="keywords" content="pentaho, report, pdf pentaho Report 生成PDF中文字不显示解决方法">
+    <link rel="shortcut icon" href="http://alenzhai.iteye.com/images/favicon.ico" type="image/x-icon">
+    <link rel="search" type="application/opensearchdescription+xml" href="http://alenzhai.iteye.com/open_search.xml" title="ITeye">
+    <link href="http://alenzhai.iteye.com/rss" rel="alternate" title="苦海行舟" type="application/rss+xml">
+    <link href="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/blog.css" media="screen" rel="stylesheet" type="text/css">
+<link href="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/black.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/ga.js" async="" type="text/javascript"></script><script src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/application.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-535605-1']);
+  _gaq.push(['_setDomainName', 'iteye.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+      <link href="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/hotkey.js" type="text/javascript"></script>
+  <script src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/code_favorites.js" type="text/javascript"></script>
+<script src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/weiboshare.js" type="text/javascript"></script>
+  <link href="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/ui.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/compress.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.iteye.com/" class="homepage">首页</a>
+  <a href="http://www.iteye.com/news">资讯</a>
+  <a href="http://www.iteye.com/magazines">精华</a>
+  <a href="http://www.iteye.com/forums">论坛</a>
+  <a href="http://www.iteye.com/ask">问答</a>
+  <a href="http://www.iteye.com/blogs">博客</a>
+  <a href="http://www.iteye.com/blogs/subjects">专栏</a>
+  <a href="http://www.iteye.com/groups">群组</a>
+  <a href="#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a target="_blank" href="http://job.iteye.com/iteye">招聘</a>
+    <a href="http://www.iteye.com/search">搜索</a>
+  </div>
+</div>
+
+      <div id="user_nav">
+  
+        <a href="http://alenzhai.iteye.com/" title="查看我的博客首页" class="welcome">欢迎zhaizhisheng</a>
+    <a title="没有未读消息" class="" id="notifications_count" href="http://my.iteye.com/notifications">0</a>
+    
+      <a href="http://my.iteye.com/messages" title="发送站内短信">收件箱</a>
+    
+    <a href="http://my.iteye.com/" title="我的应用首页">我的应用</a>
+    <div class="quick_menu" style="display:none;">
+      <a href="http://my.iteye.com/feed" title="我关注的好友动态消息">我的关注</a>
+      <a href="http://my.iteye.com/mygroup" title="我加入的群组最新话题">我的群组</a>
+      <a href="http://my.iteye.com/myresume" title="我的个人简历">我的简历</a>
+      <a href="http://my.iteye.com/admin/album" title="我的个人简历">我的相册</a>
+      <a href="http://my.iteye.com/admin/link" title="我收藏的网络资源链接">我的收藏</a>
+      <a href="http://my.iteye.com/admin/code" title="我收藏的代码">我的代码</a>
+      <a href="http://my.iteye.com/admin/weibo" title="用微博发表简短的话题">我的微博</a>
+    </div>
+    <a href="http://alenzhai.iteye.com/admin" title="管理我的博客">我的博客</a>
+    <a href="http://my.iteye.com/profile" title="修改我的个人设置">设置</a>
+    <a href="http://alenzhai.iteye.com/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);var s = document.createElement('input'); s.setAttribute('type', 'hidden'); s.setAttribute('name', 'authenticity_token'); s.setAttribute('value', 'eQhnE8CWNByH2Gfd5gihs8r9rlyyKc9ASq84uKrN5rc='); f.appendChild(s);f.submit();return false;">退出</a>
+  </div>
+
+    </div>
+
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name">
+          <h1><a href="http://alenzhai.iteye.com/">苦海行舟</a></h1>
+        </div>
+        <div id="fd"></div>
+        <div id="blog_navbar">
+          <ul>
+            <li class="blog_navbar_for"><a href="http://alenzhai.iteye.com/"><strong>博客</strong></a></li>
+            <li><a href="http://alenzhai.iteye.com/weibo">微博</a></li>
+            <li><a href="http://alenzhai.iteye.com/album">相册</a></li>
+            <li><a href="http://alenzhai.iteye.com/link">收藏</a></li>
+            <li><a href="http://alenzhai.iteye.com/blog/guest_book">留言</a></li>
+            <li><a href="http://alenzhai.iteye.com/blog/profile">关于我</a></li>
+          </ul>
+    
+          <div class="search">
+            <form action="/blog/search" method="get">
+              <input class="search_text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text">
+              <input class="submit_search" value="" type="submit">
+            </form>
+          </div> 
+          <div id="fd"></div>         
+        </div>
+      </div>
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+
+          
+
+
+<div class="h-entry" style="display:none">
+  <a href="http://alenzhai.iteye.com/" class="p-author" target="_blank">zhaizhisheng</a>
+</div>
+
+
+<div class="blog_main">
+  <div class="blog_title">
+    <h3>
+      <a href="http://alenzhai.iteye.com/blog/2042815">pentaho Report 生成PDF中文字不显示解决方法</a>
+      <em class="actions"><a href="http://alenzhai.iteye.com/admin/blogs/2042815/edit" title="编辑"><img alt="编辑" src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/btn_edit.png"></a>      </em>
+    </h3>
+    <ul class="blog_categories"><strong>博客分类：</strong> <li><a href="http://alenzhai.iteye.com/category/309975">pentaho</a></li><li><a href="http://alenzhai.iteye.com/category/310021">report</a></li> </ul>
+        <div class="news_tag"><a href="http://www.iteye.com/blogs/tag/pentaho">pentaho</a><a href="http://www.iteye.com/blogs/tag/report">report</a><a href="http://www.iteye.com/blogs/tag/pdf">pdf</a></div>
+  </div>
+
+  <div id="blog_content" class="blog_content">
+    <div class="iteye-blog-content-contain" style="font-size: 14px;">
+<p>最近在用Pentaho Report 5.0.1 设计器制作报表时发现报表生成PDF时中文字体不显示 现在来和大家分享一下解决方法<br>第一步 将报表中的中文字全部设置成 宋体 <br>第二步 将报表设计器中 file-&gt;configuration 打开 Report配置窗口选择 output-pagebale-pdf 将其下encoding 设置成utf-8</p>
+<p><br><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/cfa72fae-70c9-3706-ac29-27a600c2105c.png" alt=""><br>&nbsp;</p>
+<p><br><img class="magplus" title="点击查看原始大小图片" src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/c6fc7d36-41cf-3c7c-af50-1a6f3af8060e.png" alt="" height="470" width="700"><br>&nbsp;<br>ok 完成</p>
+</div>
+  </div>
+
+  
+  <div class="attachments">
+    
+      
+        <ul style="display:none;">
+          <li><a href="http://dl2.iteye.com/upload/attachment/0095/9415/cfa72fae-70c9-3706-ac29-27a600c2105c.png" target="_blank"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/cfa72fae-70c9-3706-ac29-27a600c2105c-thumb.png" class="magplus" title="点击查看原始大小图片"></a></li>
+          
+          <li>大小: 8.8 KB</li>
+        </ul>
+      
+    
+      
+        <ul style="display:none;">
+          <li><a href="http://dl2.iteye.com/upload/attachment/0095/9417/c6fc7d36-41cf-3c7c-af50-1a6f3af8060e.png" target="_blank"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/c6fc7d36-41cf-3c7c-af50-1a6f3af8060e-thumb.png" class="magplus" title="点击查看原始大小图片"></a></li>
+          
+          <li>大小: 22.3 KB</li>
+        </ul>
+      
+    
+    
+      <ul>
+        <li><a href="#" onclick="$$('div.attachments ul').invoke('show');$(this).up(1).hide();return false;">查看图片附件</a></li>
+      </ul>
+    
+  </div>
+
+
+
+  <iframe src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/794.htm" frameborder="0" height="60" scrolling="no" width="468"></iframe>
+  
+  <div id="bottoms" class="clearfix">
+    
+    <div id="share_weibo">分享到：
+      <a data-type="sina" href="javascript:;" title="分享到新浪微博"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/sina.jpg"></a>
+      <a data-type="qq" href="javascript:;" title="分享到腾讯微博"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/tec.jpg"></a>
+    </div>
+  </div>
+
+  <div class="blog_nav">
+    <div class="pre_next">
+      <a href="http://alenzhai.iteye.com/blog/2047504" class="next" title="Pentaho CDE 教程（一）初识CDE">Pentaho CDE 教程（一）初识CDE</a>
+      |
+      <a href="http://alenzhai.iteye.com/blog/2042588" class="pre" title="Pentaho BIServer 5.0.1-ce 资源库迁移到 Mysql">Pentaho BIServer 5.0.1-ce 资源库迁移到 M ...</a>
+    </div>
+  </div>
+  <div class="blog_bottom">
+    <ul>
+      <li>2014-04-10 09:06</li>
+      <li>浏览 22</li>
+      <li><a href="#comments">评论(0)</a></li>
+      
+      
+        <li><a href="http://alenzhai.iteye.com/admin/link?user_favorite%5Btitle%5D=pentaho+Report+%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95&amp;user_favorite%5Burl%5D=http%3A%2F%2Falenzhai.iteye.com%2Fblog%2F2042815" target="_blank" class="favorite" onclick="$$('.favorite_form_spinner')[0].show();new Ajax.Request('/admin/link/new_xhr?user_favorite%5Btitle%5D=pentaho+Report+%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95&amp;user_favorite%5Burl%5D=http%3A%2F%2Falenzhai.iteye.com%2Fblog%2F2042815', {method: 'get', onSuccess: function(response){$(document.getElementsByTagName('body')[0]).insert({bottom:response.responseText});$$('.favorite_form_spinner')[0].hide();}});return false;">收藏</a><img alt="Spinner" class="favorite_form_spinner" src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/spinner.gif" style="vertical-align:bottom;margin-left:7px;display:none;"></li>
+      
+      <li>分类:<a href="http://www.iteye.com/blogs/category/opensource">开源软件</a></li>      
+      <li class="last"><a href="http://www.iteye.com/wiki/blog/2042815" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+            <form action="/blog/2042815" id="comment_form" method="post" onsubmit="return false;"><div style="margin:0;padding:0;display:inline"><input name="authenticity_token" value="eQhnE8CWNByH2Gfd5gihs8r9rlyyKc9ASq84uKrN5rc=" type="hidden"></div>          
+
+
+  <input value="true" id="editor_bbcode_flag" type="hidden">
+
+
+
+<div id="editor_main"><div class="clearfix" id="editor_wrapper"><div id="bbcode_emotions"><h5>表情图标</h5><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_biggrin.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_smile.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_sad.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_surprised.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_eek.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_confused.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_cool.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_lol.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_mad.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_razz.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_redface.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_cry.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_evil.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_twisted.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_rolleyes.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_wink.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_exclaim.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_question.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_idea.gif"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_arrow.gif"></div><div id="bbcode_controllers"><div id="bbcode_toolbar"><input id="button_bold" value="B" type="button"><input id="button_italic" value="I" type="button"><input id="button_underline" value="U" type="button"><input value="Quote" type="button"><input value="Code" type="button"><input value="List" type="button"><input value="Img" type="button"><input value="URL" type="button"><input value="Flash" type="button"><input value="Table" type="button"><br>字体颜色: <select id="select_color"><option selected="selected" value="black" style="color: black;">标准</option><option value="darkred" style="color: darkred;">深红</option><option value="red" style="color: red;">红色</option><option value="orange" style="color: orange;">橙色</option><option value="brown" style="color: brown;">棕色</option><option value="yellow" style="color: yellow;">黄色</option><option value="green" style="color: green;">绿色</option><option value="olive" style="color: olive;">橄榄</option><option value="cyan" style="color: cyan;">青色</option><option value="blue" style="color: blue;">蓝色</option><option value="darkblue" style="color: darkblue;">深蓝</option><option value="indigo" style="color: indigo;">靛蓝</option><option value="violet" style="color: violet;">紫色</option><option value="gray" style="color: gray;">灰色</option><option value="white" style="color: white;">白色</option><option value="black" style="color: black;">黑色</option></select>&nbsp;字体大小: <select id="select_font"><option selected="selected" value="0">标准</option><option value="xx-small">1 (xx-small)</option><option value="x-small">2 (x-small)</option><option value="small">3 (small)</option><option value="medium">4 (medium)</option><option value="large">5 (large)</option><option value="x-large">6 (x-large)</option><option value="xx-large">7 (xx-large)</option></select>&nbsp;对齐: <select id="select_align"><option selected="selected" value="0">标准</option><option value="left">居左</option><option value="center">居中</option><option value="right">居右</option></select></div><div id="bbcode_tooltip">提示：选择您需要装饰的文字, 按上列按钮即可添加上相应的标签</div><textarea class="validate-richeditor bad-words min-length-5" cols="40" id="editor_body" name="comment[body]" rows="20" style="width: 500px; height: 350px;"></textarea></div></div></div>
+
+
+<script type="text/javascript">
+  var editor = new Control.TextArea.Editor("editor_body", "bbcode", false);
+</script>
+
+          <p style="text-align:right;margin-right:30px;">(快捷键 Alt+S / Ctrl+Enter) <input class="submit" id="quick_reply_button" name="commit" value="提交" type="submit"></p>
+       </form>
+        <script type="text/javascript">
+          new HotKey("s",function() {$('quick_reply_button').click();},{altKey: true, ctrlKey: false});
+          new HotKey(new Number(13),function() {$('quick_reply_button').click();},{altKey: false, ctrlKey: true});
+
+          new Validation("comment_form", {immediate: false, onFormValidate: function(result, form){
+            if(result) {
+              new Ajax.Request('/blog/create_comment/2042815', {
+                onFailure:function(response){
+                  $('comments').insert({after:response.responseText})
+                  form.spinner.hide();
+                  Element.scrollTo($('comments'));
+                },
+                onSuccess:function(response){
+                  Element.scrollTo($('comments'));
+                  var new_comment = new Element('div', {}).update(response.responseText).firstChild;
+                  var comment_id = new_comment.readAttribute('id');
+
+                  $('comments').insert({after:response.responseText});
+                  $('editor_body').value = "";
+
+                  var css_rules = '#' + comment_id + ' pre';
+                  highlightNewAddContent(css_rules);
+                  processComment();
+                  code_favorites_init(css_rules);
+                  
+                  form.spinner.hide();
+                }, parameters:Form.serialize(form)
+              });
+            }
+        }});
+        </script>
+        </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  $$('#main .blog_content pre[name=code]').each(function(pre, index){ // blog content
+    var post_id = 2042815;
+    var location = window.location;
+    source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+    pre.writeAttribute('codeable_id', post_id);
+    pre.writeAttribute('codeable_type', "Blog");
+    pre.writeAttribute('source_url', source_url);
+    pre.writeAttribute('pre_index', index);
+    pre.writeAttribute('title', 'pentaho Report 生成PDF中文字不显示解决方法');
+  });
+
+  fix_image_size($$('div.blog_content img'), 700);
+
+  function processComment() {
+    $$('#main .blog_comment > div').each(function(comment){// comment
+      var post_id = comment.id.substr(2);
+      $$("#"+comment.id+" pre[name=code]").each(function(pre, index){
+        var location = window.location;
+        source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+        source_url += "#" + comment.id;
+        pre.writeAttribute('codeable_id', post_id);
+        pre.writeAttribute('codeable_type', "BlogComment");
+        pre.writeAttribute('source_url', source_url);
+        pre.writeAttribute('pre_index', index);
+        pre.writeAttribute('title', 'pentaho Report 生成PDF中文字不显示解决方法');
+      });
+    });
+  }
+
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'BlogComment'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);
+        Element.scrollTo(editor.bbcode_editor.textarea.element);}
+    });
+  }
+
+  code_favorites_init();
+  processComment();
+  new WeiboShare({share_buttons: $('share_weibo'), img_scope: $('blog_content')});
+</script>
+
+
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+  <div id="blog_owner_logo"><a href="http://alenzhai.iteye.com/"><img alt="zhaizhisheng的博客" class="logo" src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/51304ed8-cc75-36b3-b1c7-46f38f5524c2.jpg" title="zhaizhisheng的博客: 苦海行舟"></a></div>
+  <div id="blog_owner_name">zhaizhisheng</div>
+</div>
+
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 359 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/icon_minigender_1.gif" title="男"></li>
+              <li>来自: 新乡</li>
+              <li><a href="http://alenzhai.iteye.com/blog/2042815" target="_blank" title="我正在读《pentaho Report 生成PDF中文字不显示解决方法》"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/blog_show.gif"></a></li>
+              
+            </ul>
+          </div>
+          <div id="user_visits" class="clearfix">
+            <h5>最近访客 <span style="font-weight:normal;font-size:12px;padding-left:30px;"><a href="http://alenzhai.iteye.com/blog/user_visits">更多访客&gt;&gt;</a></span></h5>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://u012363178.iteye.com/" target="_blank"><img alt="u012363178的博客" class="logo" src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/user-logo-thumb.gif" title="u012363178的博客: "></a></div>
+                <div class="left"><a href="http://u012363178.iteye.com/" target="_blank" title="u012363178">u012363178</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://tzl0507.iteye.com/" target="_blank"><img alt="tzl0507的博客" class="logo" src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/user-logo-thumb.gif" title="tzl0507的博客: "></a></div>
+                <div class="left"><a href="http://tzl0507.iteye.com/" target="_blank" title="tzl0507">tzl0507</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://dylinshi126.iteye.com/" target="_blank"><img alt="dylinshi126的博客" class="logo" src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/user-logo-thumb.gif" title="dylinshi126的博客: "></a></div>
+                <div class="left"><a href="http://dylinshi126.iteye.com/" target="_blank" title="dylinshi126">dylinshi126</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://tmaczhutao.iteye.com/" target="_blank"><img alt="tmaczhutao的博客" class="logo" src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/user-logo-thumb.gif" title="tmaczhutao的博客: tmaczhutao"></a></div>
+                <div class="left"><a href="http://tmaczhutao.iteye.com/" target="_blank" title="tmaczhutao">tmaczhutao</a></div>
+              </div>
+            
+          </div>
+
+          
+
+                      <div id="blog_menu">
+              <h5>文章分类</h5>
+              <ul>
+                <li><a href="http://alenzhai.iteye.com/">全部博客 (7)</a></li>
+                
+                  <li><a href="http://alenzhai.iteye.com/category/280891">WebService (1)</a></li>
+                
+                  <li><a href="http://alenzhai.iteye.com/category/280892">Solr (0)</a></li>
+                
+                  <li><a href="http://alenzhai.iteye.com/category/280893">Spring (0)</a></li>
+                
+                  <li><a href="http://alenzhai.iteye.com/category/281027">正则表达式 (1)</a></li>
+                
+                  <li><a href="http://alenzhai.iteye.com/category/284498">企业框架 (1)</a></li>
+                
+                  <li><a href="http://alenzhai.iteye.com/category/309975">pentaho (3)</a></li>
+                
+                  <li><a href="http://alenzhai.iteye.com/category/309979">database (1)</a></li>
+                
+                  <li><a href="http://alenzhai.iteye.com/category/310021">report (1)</a></li>
+                
+                  <li><a href="http://alenzhai.iteye.com/category/310725">CDE (1)</a></li>
+                
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>社区版块</h5>
+              <ul>
+                <li><a href="http://alenzhai.iteye.com/blog/news">我的资讯</a> (0)</li>
+                <li>
+                  <a href="http://alenzhai.iteye.com/blog/post">我的论坛</a> (0)
+                </li>
+                <li><a href="http://alenzhai.iteye.com/blog/answered_problems">我的问答</a> (0)</li>
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>存档分类</h5>
+              <ul>
+                
+                  <li><a href="http://alenzhai.iteye.com/blog/monthblog/2014-04">2014-04</a> (4)</li>
+                
+                  <li><a href="http://alenzhai.iteye.com/blog/monthblog/2013-07">2013-07</a> (1)</li>
+                
+                  <li><a href="http://alenzhai.iteye.com/blog/monthblog/2013-06">2013-06</a> (2)</li>
+                
+                <li><a href="http://alenzhai.iteye.com/blog/monthblog_more">更多存档...</a></li>
+              </ul>
+            </div>
+            
+            
+              <div id="comments_top">
+                <h5>评论排行榜</h5>
+                <ul>
+                  
+                    <li><a href="http://alenzhai.iteye.com/blog/2047504" title="Pentaho CDE 教程（一）初识CDE">Pentaho CDE 教程（一）初识CDE</a></li>
+                  
+                </ul>
+              </div>
+            
+
+            <div id="guest_books">
+              <h5>最新评论</h5>
+              <ul>
+                
+                <li>
+                  <a href="http://alenzhai.iteye.com/" target="_blank" title="zhaizhisheng">zhaizhisheng</a>： 
+                  tzl0507 写道CDE商业版才能用？不是的CDE是开源的你 ...<br>
+                  <a href="http://alenzhai.iteye.com/blog/2047504#bc2346293">Pentaho CDE 教程（一）初识CDE</a>
+                </li>
+                
+                <li>
+                  <a href="http://tzl0507.iteye.com/" target="_blank" title="tzl0507">tzl0507</a>： 
+                  CDE商业版才能用？<br>
+                  <a href="http://alenzhai.iteye.com/blog/2047504#bc2346277">Pentaho CDE 教程（一）初识CDE</a>
+                </li>
+                
+              </ul>
+            </div>
+
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr>
+          声明：ITeye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br>
+          © 2003-2014 ITeye.com.   All rights reserved.  [ 京ICP证110151号  京公网安备110105010620 ]
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+  document.write("<img src='http://stat.iteye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&user_id=726351' width='0' height='0' />");
+</script><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/a.gif" height="0" width="0">
+
+<script src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/tracking.js" type="text/javascript"></script>
+
+    
+<script type="text/javascript" src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/tongji.js"></script><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/tongji.gif" border="0" height="1" width="1"><a href="http://tongji.linezing.com/report.html?unit_id=3440218" target="_blank"><img src="pentaho%20Report%20%E7%94%9F%E6%88%90PDF%E4%B8%AD%E6%96%87%E5%AD%97%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E8%8B%A6%E6%B5%B7%E8%A1%8C%E8%88%9F%20-%20ITeye%E6%8A%80%E6%9C%AF%E7%BD%91%E7%AB%99_files/stats.gif" alt="量子统计" border="0"></a>
+      
+    
+  
+
+</body></html>
