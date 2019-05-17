@@ -29,7 +29,7 @@ ZKClient里面并没有类似的watcher、watch参数，这也就是说我们开
 /**
 * 侦听父节点下子节点的变化
 */
-zkClient.subscribeChildChanges("", new IZkChildListener() {
+zkClient.subscribeChildChanges("path", new IZkChildListener() {
             @Override
             public void handleChildChange(String s, List<String> list) throws Exception {
 
@@ -38,7 +38,7 @@ zkClient.subscribeChildChanges("", new IZkChildListener() {
 /**
  * 侦听节点下数据的变化
 */
-zkClient.subscribeDataChanges("", new IZkDataListener() {
+zkClient.subscribeDataChanges("path", new IZkDataListener() {
             @Override
             public void handleDataChange(String s, Object o) throws Exception {
 
@@ -83,7 +83,7 @@ zkClient.createPersistent("path",true);
 * 创建永久有序节点
 * 
 */
-zkClient.createPersistentSequential("",data);
+zkClient.createPersistentSequential("path",data);
 /**
 * 创建临时节点
 *
