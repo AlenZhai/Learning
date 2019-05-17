@@ -120,16 +120,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Bean //配置用户加载类
-    public UserDetailsService userDetailsService(){
-         return new MyUserService();
-    }
-
-    @Override
-    @Bean //配置谁管理器
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
     @Bean //配置密码加密器
     public PasswordEncoder passwordEncoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -162,14 +152,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 ## AuthServer 和 ResourceServer分离的配置
 
+AuthServer和ResourceServer不在一个应用时AuthServer端的配置不变，ResourceServer的配置需要做一下调整
+
 ### ResourceServer配置 
 
 ```yaml
 security:
   oauth2:
     resource:
-      token-info-uri: http://localhost:8081/oauth/check_token
+      #配置AuthServer的Token验证接口
+      token-info-uri: http://localhost:8081/oauth/check_token 
     client:
+      #配置该客户端的id和secret（以此为凭证进行和AuthServer通信）
       client-id: client
       client-secret: secret
 ```
@@ -178,7 +172,7 @@ security:
 
 **RemoteTokenServices**：负责从认证服务器获取用户信息
 
-![从认证服务器返回的用户结构](img\check_token_response.png)
+![从认证服务器返回的用户结构](img/check_token_response.png)
 
 
 
@@ -287,7 +281,7 @@ http://localhost:8081/oauth/token?username=alnezhai&password=123456&grant_type=p
 
   在这个类中有一个CompositeTokenGranter 类里面集合了处理所有grant_type的Token分配器
 
-  ![Token生成器](img\tokenGranters.png)
+  ![Token生成器](img/tokenGranters.png)
 
   这里的grant_type=password 用到的为 **ResourceOwnerPasswordTokenGranter**在该类中对用户名和密码进行了验证
 
