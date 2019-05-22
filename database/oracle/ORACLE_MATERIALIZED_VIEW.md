@@ -44,8 +44,6 @@ WITH PRIMARY KEY ----这里创建基于PRIMARY KEY 的物化视图，要与日�
 | 名称        |     描述     |                             取值                             |   默认值    |
 | ----------- | :----------: | :----------------------------------------------------------: | :---------: |
 | WITH Clause | 日志排序方式 | OBJECT ID(如果是对象实体化视图(object materialized view)，<br/>则只能采用该方式)<br/>PRIMARY KEY<br/>ROWID | PRIMARY KEY |
-|             |              |                                                              |             |
-|             |              |                                                              |             |
 
 
 
