@@ -69,7 +69,7 @@ OAuth Server需要继承 **AuthorizationServerConfigurerAdapter**
                   .tokenStore(tokenStore()) 
                   //加载定义的用户信息（用户验证时使用）
                   .userDetailsService(userDetailsService)
-                  //用户认证管理器（用户验证时使用）
+                  //用户认证管理器（用户验证时使用）password 方式必须配置此值
                   .authenticationManager(authenticationManager)
                   //定制异常信息转换
                   .exceptionTranslator(new ExceptionTranslator());;
