@@ -174,6 +174,59 @@ security:
 
 ![从认证服务器返回的用户结构](img/check_token_response.png)
 
+## 配置支持authorization_code的OauthClient
+
+配置OauthClient的思路是在Filter中加入OAuth2ClientAuthenticationProcessingFilter 并且配置拦截的Url
+
+```java
+//首先需要在配置类中加入注解 EnableOAuth2Client
+@EnableOAuth2Client
+@Configuration
+public class OAuth2ClientConfig extends WebSecurityConfigurerAdapter {
+  ....   
+ ｝
+/**
+ * 配置类的主要方法
+ * 通过此方法进行 认证配置
+ * @param http
+ * @throws Exception
+ */
+@Override
+ protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/user/**").authenticated()
+                .anyRequest().permitAll()
+                .and().exceptionHandling()
+                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+
+                .and()
+                .formLogin().loginPage("/login").loginProcessingUrl("/login.do").defaultSuccessUrl("/valid/userinfo")
+                .failureUrl("/login?err=1")
+                .permitAll()
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/logoutsuccess")
+                .permitAll()
+                //重点内容 主要是通过配置这个 过虑器来实现Oauth2认证
+                .and().addFilterBefore(sso(), BasicAuthenticationFilter.class);
+    }
+
+/**
+ * 配置OAuth2Client的Filter主要功能都由这个
+ * 拦截器实现
+ * @return
+ */
+private Filter sso() {
+        OAuth2ClientAuthenticationProcessingFilter githubFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/github");
+       //配置进行用户验证的Template
+        OAuth2RestTemplate githubTemplate = new OAuth2RestTemplate(authorizationCodeResourceDetails, oauth2ClientContext);
+        githubFilter.setRestTemplate(githubTemplate);
+        //配置 Token管理器
+        githubFilter.setTokenServices(new UserInfoTokenServices(resourceServerProperties.getUserInfoUri(), authorizationCodeResourceDetails.getClientId()));
+        return githubFilter;
+    }
+```
+
 
 
 ## 几个主要的类
@@ -307,5 +360,97 @@ http://localhost:8081/oauth/token?username=alnezhai&password=123456&grant_type=p
   这里相当于进行了两级的验证 
     1、第一级 进行Cleint和Secret的验证
     2、第二级 根据grant_type 进行用户名的验证
-  注意：在第一级验证的时候 Secret的前面需要加**{加密类型}secret的值**（secret被认为是密码，在Spring5中密码前必须加加密类型且包含在大括号中如果不加密则加{noop}）
+  注意：在第一级验证的时候 Secret的前面需要加 **{加密类型}secret的值**（secret被认为是密码，在Spring5中密码前必须加加密类型且包含在大括号中如果不加密则加{noop}）
+
+## 基于Oauth2的单点登录
+认证服务器端的配置同上这里只详细说明一下需要注意的地方和接入单点登录系统的配置
+### 服务器端需要注意的地方：
+认证服务器需要定义 http://localhost:8081/user/me 接口，定义如下：
+```java
+    @GetMapping("/user/me")
+    public Principal getUser(Principal principal) {
+        return principal;
+    }
+```
+授权服务器端配置的clinet信息如下：
+```java
+@Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.inMemory()
+                .withClient("client")
+                .secret(passwordEncoder.encode("123456"))
+                .scopes("app", "server")
+                .authorizedGrantTypes("authorization_code", "password", "refresh_token")
+                .redirectUris("http://localhost:8083/login")
+        ;
+    }
+```
+**注意这里的redirectUris的配置必须为/login 因为默认配置下Client只处理/login的URI如果配置别的URI Client端的Filter也需要修改**
+### 接入系统需要配置的内容
+有两个文件需要配置 SecurityConfiguration 配置内容如下：
+```java
+
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+/**
+ * @author Alen
+ * @since 2019/8/7
+ */
+@Configuration
+@EnableOAuth2Sso
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        //解决静态资源被拦截的问题
+        web.ignoring().antMatchers("/assets/**");
+        web.ignoring().antMatchers("/favicon.ico");
+
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin();
+    }
+}
+```
+这里除了增加了@EnableOAuth2Sso 注解外别的都是正常的权限配置没什么可说的
+另一个配置是application.yml配置如下：
+```yaml
+server:
+  port: 8083
+  servlet:
+    session:
+      cookie:
+        name: SSOSESSION
+security:
+  oauth2:
+    client:
+      clientId: client
+      clientSecret: 123456
+      accessTokenUri: http://localhost:8081/oauth/token
+      userAuthorizationUri: http://localhost:8081/oauth/authorize
+      clientAuthenticationScheme: form
+      use-current-uri: false
+    resource:
+      user-info-uri: http://localhost:8081/user/me
+```
+这里需要注意的几个地方：
+- 1、获取用户信息的配置 必须为user-info-uri否则读取信息时会报错，最初笔者配置的是token-info-uri 一直报错，最终通过调试才解决
+- 2、cookie.name 需要配置（网上都是这么说要配置）
+
+这里需要注意的是如果返回额外的信息需要重写UserInfoTokenService中的 PrincipalExtractor， 默认实现只能取到用户名
+具体参照 FixedPrincipalExtractor 源码，
+替换原PrincipalExtractor 只需要在Spring容器中注入自定义的PrincipalExtractor实现即可
+说明：以key user-info-uri 配置是 Spring 会使用UserInfoTokenServices来处理Token和读取用户信息（适用于单点登录），如果使用token-info-uri Spring会使用
+RemoteTokenServices 来处理Token和读取用户信息（适用于和授权服务分离的ResourceServer鉴权）
+## OAuth2Client认证过程（authorization_code）
+
+
 
