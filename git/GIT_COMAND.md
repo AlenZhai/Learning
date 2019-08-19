@@ -23,6 +23,8 @@ git add 目录名
 git add . 
 #添加/code 下所有修改的文件
 git add -u /code
+#提交到本地库
+git commit -m "这里写注释"
 ```
 
 ### 3、切换和新建分支/标签
