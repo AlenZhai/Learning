@@ -15,13 +15,13 @@
 
 ### 以下是ConsoleAppender的配置详情
 
-![ConsoleAppender的配置](img\consoleappender.png)
+![ConsoleAppender的配置](img/consoleappender.png)
 
 **这里主要配置了两个地方， target这里使用的是System.out （标准输出）和encoder这个配置输出的格式**
 
 ### RollingFileAppender
 
-![RollingFileAppender详情](img\rollingFileAppender.png)
+![RollingFileAppender详情](img/rollingFileAppender.png)
 
 这里也是两个比较重要的配置 rollingPolicy和encoder 其中rollingPolicy配置文件什么时候切换以及切换命名规则
 
