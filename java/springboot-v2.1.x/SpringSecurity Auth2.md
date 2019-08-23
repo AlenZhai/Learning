@@ -54,7 +54,7 @@ OAuth Server需要继承 **AuthorizationServerConfigurerAdapter**
       public void configure(ClientDetailsServiceConfigurer clients) throws Exception     {
            clients.inMemory() //配置客户端信息为了演示这里配置到了内在中，实际应该保存到数据库
                    .withClient("test") //客户端ID（用来唯一区分一个客户端）
-                   .scopes("read","write")//作用域
+                   .scopes("read","write")//作用域 可以通过 在ResourceServer的配置中限制作用域的使用范围 .access("#oauth2.hasScope('read')")
                    .authorizedGrantTypes("password","refresh_token")//认证类型
                     //客户端的secret 相当于密码（注意这里的{bcrypt}必须加，
                     //且要和加密器的key匹配）
@@ -106,6 +106,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/valid/**","/auth/**")//这些信息也可以配置到数据库中
                 .hasRole("admin") //定义只有admin角色才能访问以上资源
+                .antMatchers("/api/**")//这些信息也可以配置到数据库中
+                .access("#oauth2.hasScope('read')") //只有Scope是read才可以访问
         ;
     }
 }
@@ -168,7 +170,7 @@ security:
       client-secret: secret
 ```
 
-*注意：需要注意的是在ResourceServer中必须配置client-id和client-secret 否则无法与AuthServer通信，且AuthServer的checkTokenAccess要配置成permitAll()或者isAuthenticated()（由于默认值denyAll() 不允许访问，在使用中一直报403，官方文档中并没有说明此项在配置）*
+**注意：需要注意的是在ResourceServer中必须配置client-id和client-secret 否则无法与AuthServer通信，且AuthServer的checkTokenAccess要配置成permitAll()或者isAuthenticated()（由于默认值denyAll() 不允许访问，在使用中一直报403，官方文档中并没有说明此项在配置）且resource下必须配置token-info-uri：http://localhost:8081/oauth/check_token来获取用户信息（单点登录时要配置成user-info-uri: http://localhost:8081/user/me）**
 
 **RemoteTokenServices**：负责从认证服务器获取用户信息
 
@@ -385,7 +387,8 @@ http://localhost:8081/oauth/token?username=alnezhai&password=123456&grant_type=p
         ;
     }
 ```
-**注意这里的redirectUris的配置必须为/login 因为默认配置下Client只处理/login的URI如果配置别的URI Client端的Filter也需要修改**
+**注意这里的redirectUris的配置必须为/login 因为默认配置下Client 端的 OAuth2ClientAuthenticationProcessingFilter 只处理/login的URI如果配置别的URI Client端的Filter也需要修改**
+
 ### 接入系统需要配置的内容
 有两个文件需要配置 SecurityConfiguration 配置内容如下：
 ```java
@@ -422,6 +425,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 ```
 这里除了增加了@EnableOAuth2Sso 注解外别的都是正常的权限配置没什么可说的
 另一个配置是application.yml配置如下：
+
 ```yaml
 server:
   port: 8083
@@ -448,9 +452,34 @@ security:
 这里需要注意的是如果返回额外的信息需要重写UserInfoTokenService中的 PrincipalExtractor， 默认实现只能取到用户名
 具体参照 FixedPrincipalExtractor 源码，
 替换原PrincipalExtractor 只需要在Spring容器中注入自定义的PrincipalExtractor实现即可
-说明：以key user-info-uri 配置是 Spring 会使用UserInfoTokenServices来处理Token和读取用户信息（适用于单点登录），如果使用token-info-uri Spring会使用
-RemoteTokenServices 来处理Token和读取用户信息（适用于和授权服务分离的ResourceServer鉴权）
-## OAuth2Client认证过程（authorization_code）
+**说明：以key user-info-uri 配置是 Spring 会使用UserInfoTokenServices来处理Token和读取用户信息（适用于单点登录），如果使用token-info-uri Spring会使用
+RemoteTokenServices 来处理Token和读取用户信息（适用于和授权服务分离的ResourceServer鉴权）**
 
+## Scope和权限进行关联
 
+Oauth2基于access_token访问的权限控制都是通过ResourceServerConfig的configure(HttpSecurity http)方法来进行配置的，下面以一个例子来做说明
+
+```java
+
+@Configuration
+@EnableResourceServer
+public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http
+                .requestMatchers().antMatchers("/base/**") //这个配置是哪此URI 可以通过access_token的方式访问（默认后有的都可以）除此之外的需要通过 SecurityConfig 配置的验证才能被访问
+                .and()
+                .authorizeRequests()
+                .antMatchers("/base/**") //这里配置对应的权限
+                .access("#oauth2.hasScope('app') or hasRole('USER')") //拥有scope为app的client或者拥有USER角色的用户可以访问
+                .antMatchers("/base1/**").access("#oauth2.hasScope('server') and hasRole('USER')")//拥有scope为server的client且拥有USER角色的用户可以访问
+                .antMatchers("/base2/**").hasRole("USER")//拥有USER角色的用户可以访问和Spring Security一样
+                .antMatchers("/base3/**").hasRole("ADMIN")
+                .anyRequest()
+                //.authenticated() //其它连接只要通过验证就可以被访问
+                .denyAll(); //其它连接不能被访问 （实现环境中用这个）
+        ;
+    }
+}
+```
 
